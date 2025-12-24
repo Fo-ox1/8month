@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Это место собрано из тебя</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=Inter:wght@200;300;400&display=swap" rel="stylesheet">
+    <style>
+        /* ОСНОВНЫЕ НАСТРОЙКИ */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: #0a0a0a;
+            color: #e0e0e0;
+            font-family: 'Inter', sans-serif;
+            font-weight: 300;
+            line-height: 1.7;
+            overflow-x: hidden;
+            font-size: 19px;
+            background-image: 
+                radial-gradient(circle at 15% 30%, rgba(120, 0, 30, 0.03) 0%, transparent 25%),
+                radial-gradient(circle at 85% 70%, rgba(255, 51, 102, 0.02) 0%, transparent 25%);
+        }
+
+        /* СТИЛЬ ДЛЯ ВСЕХ СЕКЦИЙ */
+        section {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 100px 30px;
+            max-width: 850px;
+            margin: 0 auto;
+            position: relative;
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 1.2s ease-out, transform 1.2s ease-out;
+        }
+
+        section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ДЕКОРАТИВНЫЕ ЛИНИИ МЕЖДУ СЕКЦИЯМИ */
+        .section-divider {
+            width: 1px;
+            height: 80px;
+            background: linear-gradient(to bottom, transparent, rgba(255, 51, 102, 0.3), transparent);
+            margin: 0 auto;
+            opacity: 0.5;
+        }
+
+        /* ЗАГОЛОВКИ И ТЕКСТ */
+        .main-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 4.2rem;
+            color: #ffffff;
+            margin-bottom: 30px;
+            text-align: center;
+            font-weight: 400;
+            letter-spacing: 1.5px;
+            position: relative;
+            padding-bottom: 25px;
+            line-height: 1.2;
+        }
+
+        .main-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 180px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #ff3366, transparent);
+        }
+
+        .section-title {
+            font-family: 'Cormorant Garamond', serif;
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 3.2rem;
+            margin-bottom: 60px;
+            text-align: center;
+            font-weight: 400;
+            position: relative;
+            letter-spacing: 1px;
+        }
+
+        .section-title::before {
+            content: '❦';
+            position: absolute;
+            top: -45px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: rgba(255, 51, 102, 0.4);
+            font-size: 1.8rem;
+        }
+
+        p {
+            font-size: 1.3rem;
+            margin-bottom: 30px;
+            text-align: center;
+            color: #b8b8b8;
+            max-width: 680px;
+            line-height: 1.9;
+            font-weight: 300;
+            letter-spacing: 0.2px;
+            opacity: 0.95;
+        }
+
+        .highlight {
+            color: #ff4d7e;
+            font-weight: 400;
+        }
+
+        .heart {
+            color: #ff3366;
+            margin: 0 6px;
+            display: inline-block;
+            animation: gentlePulse 4s infinite ease-in-out;
+        }
+
+        @keyframes gentlePulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.8; transform: scale(1.05); }
+        }
+
+        /* КНОПКА */
+        .btn {
+            display: inline-block;
+            margin-top: 50px;
+            padding: 18px 50px;
+            background: transparent;
+            color: #ff3366;
+            border: 1px solid rgba(255, 51, 102, 0.4);
+            border-radius: 0;
+            text-decoration: none;
+            font-size: 1.1rem;
+            letter-spacing: 2px;
+            transition: all 0.5s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            font-weight: 300;
+            text-transform: uppercase;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 51, 102, 0.1), transparent);
+            transition: left 0.7s ease;
+        }
+
+        .btn:hover {
+            border-color: #ff3366;
+            color: #fff;
+            letter-spacing: 3px;
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        /* КАРТИНКИ - ИСПРАВЛЕННЫЕ СТИЛИ */
+        .img-container {
+            margin: 40px 0 30px 0;
+            border-radius: 2px;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            max-width: 100%;
+            position: relative;
+        }
+
+        .img-container::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, transparent 70%, rgba(10, 10, 10, 0.3));
+            pointer-events: none;
+        }
+
+        .img-container img {
+            width: 100%;
+            height: auto;
+            display: block;
+            transition: transform 1.2s ease;
+            filter: grayscale(10%) contrast(1.05);
+        }
+
+        .img-container:hover img {
+            transform: scale(1.03);
+            filter: grayscale(0%) contrast(1.1);
+        }
+
+        /* СПЕЦИАЛЬНЫЕ СЕКЦИИ */
+        #main-screen {
+            text-align: center;
+        }
+
+        #main-screen .subtitle {
+            font-size: 1.8rem;
+            color: #aaa;
+            margin-bottom: 40px;
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 300;
+            letter-spacing: 1px;
+        }
+
+        /* Раздел "8" */
+        #eight {
+            position: relative;
+        }
+
+        .eight-symbol {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 24rem;
+            color: rgba(255, 51, 102, 0.03);
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: -1;
+            user-select: none;
+            font-weight: 300;
+        }
+
+        /* Раздел "Время" */
+        .time-moment {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 6.5rem;
+            color: rgba(255, 255, 255, 0.95);
+            font-weight: 300;
+            letter-spacing: 8px;
+            margin: 40px 0;
+            position: relative;
+            text-shadow: 0 0 20px rgba(255, 51, 102, 0.2);
+        }
+
+        .time-moment.small {
+            font-size: 3rem;
+            letter-spacing: 4px;
+            color: rgba(255, 255, 255, 0.8);
+            margin-top: -20px;
+        }
+
+        /* Финальный раздел */
+        #future-photo {
+            background-color: #050505;
+            padding-bottom: 150px;
+        }
+
+        .question-square {
+            width: 320px;
+            height: 320px;
+            background-color: #000;
+            border: 1px solid rgba(255, 51, 102, 0.2);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin: 60px auto;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .question-square::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, transparent, transparent, #ff3366, transparent, transparent);
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .question-square:hover::before {
+            opacity: 0.3;
+            animation: borderGlow 3s linear infinite;
+        }
+
+        @keyframes borderGlow {
+            0% { transform: translate(-2px, -2px); }
+            25% { transform: translate(2px, -2px); }
+            50% { transform: translate(2px, 2px); }
+            75% { transform: translate(-2px, 2px); }
+            100% { transform: translate(-2px, -2px); }
+        }
+
+        .question-mark {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 10rem;
+            color: rgba(255, 51, 102, 0.15);
+            margin-bottom: 20px;
+            font-weight: 300;
+        }
+
+        /* ТИХИЕ ЦИТАТЫ-РАЗДЕЛИТЕЛИ */
+        .quiet-divider {
+            width: 100%;
+            text-align: center;
+            margin: 70px 0;
+            position: relative;
+        }
+
+        .quiet-divider span {
+            color: #444;
+            font-size: 1rem;
+            letter-spacing: 8px;
+            text-transform: uppercase;
+            position: relative;
+            padding: 0 20px;
+            background-color: #0a0a0a;
+        }
+
+        .quiet-divider::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, #0a0a0a, #333, #0a0a0a);
+            z-index: -1;
+        }
+
+        /* АДАПТИВНОСТЬ */
+        @media (max-width: 900px) {
+            section {
+                padding: 80px 25px;
+            }
+            
+            .main-title {
+                font-size: 3.2rem;
+            }
+            
+            .section-title {
+                font-size: 2.6rem;
+            }
+            
+            p {
+                font-size: 1.2rem;
+                max-width: 90%;
+            }
+            
+            .time-moment {
+                font-size: 4.5rem;
+                letter-spacing: 5px;
+            }
+            
+            .time-moment.small {
+                font-size: 2.5rem;
+            }
+            
+            .eight-symbol {
+                font-size: 18rem;
+            }
+            
+            .question-square {
+                width: 280px;
+                height: 280px;
+            }
+            
+            .question-mark {
+                font-size: 8rem;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .main-title {
+                font-size: 2.5rem;
+            }
+            
+            .section-title {
+                font-size: 2.1rem;
+            }
+            
+            p {
+                font-size: 1.1rem;
+            }
+            
+            .time-moment {
+                font-size: 3.2rem;
+            }
+            
+            .eight-symbol {
+                font-size: 12rem;
+            }
+            
+            .btn {
+                padding: 15px 35px;
+                font-size: 1rem;
+            }
+        }
+
+        /* СКРОЛЛБАР */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #111;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #333;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #444;
+        }
+    </style>
+</head>
+<body>
+    <!-- ГЛАВНЫЙ ЭКРАН -->
+    <section id="main-screen" class="visible">
+        <h1 class="main-title">«Это место собрано из тебя»</h1>
+        <p class="subtitle">Привет, малышка <span class="heart">❤️</span></p>
+        <p>Этот сайт сделан специально для тебя, любовь моя.</p>
+        <p>Он служит напоминанием о том, кто ты — и собран из частичек тебя.</p>
+        <a href="#flowers" class="btn">Идём дальше</a>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- ЦВЕТЫ -->
+    <section id="flowers">
+        <h2 class="section-title">Цветы, которые описывают тебя</h2>
+        
+        <div class="img-container">
+            <img src="img1.jpg" alt="Гортензии">
+        </div>
+        <p><span class="highlight">Гортензии</span> — самые первые цветочки, которые я подарил тебе <span class="heart">❤️</span></p>
+        
+        <div style="height: 40px;"></div>
+        
+        <div class="img-container">
+            <img src="img2.jpg" alt="Белые лилии">
+        </div>
+        <p><span class="highlight">Белые лилии</span> — невероятно красивые цветы, олицетворяющие чистоту твоей души.</p>
+        
+        <div style="height: 40px;"></div>
+        
+        <div class="img-container">
+            <img src="img3.jpg" alt="Ранункулюсы">
+        </div>
+        <p><span class="highlight">Ранункулюсы</span> — за твою нежность <span class="heart">❤️</span></p>
+        
+        <div style="height: 40px;"></div>
+        
+        <div class="img-container">
+            <img src="img4.jpg" alt="Пионы">
+        </div>
+        <p><span class="highlight">Пионы</span> — потому что красота не обязательно должна быть скромной.</p>
+    </section>
+
+    <div class="quiet-divider"><span>✦</span></div>
+
+    <!-- СИСТЕМА КООРДИНАТ -->
+    <section id="coordinates">
+        <h2 class="section-title">Твоя система координат</h2>
+        
+        <div class="img-container" style="max-width: 500px;">
+            <img src="img5.jpg" alt="Весы">
+        </div>
+        
+        <div style="height: 30px;"></div>
+        
+        <p><span class="highlight">Весы.</span></p>
+        <p>Ты всегда находишь во всём равновесие, любимая <span class="heart">❤️</span></p>
+        
+        <div style="height: 50px;"></div>
+        
+        <p><span class="highlight">Юпитер —</span></p>
+        <p>такая же мудрая, всегда стремишься к карьерному и духовному росту <span class="heart">❤️</span></p>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- 8 -->
+    <section id="eight">
+        <div class="eight-symbol">8</div>
+        <h2 class="section-title">8</h2>
+        <p>Твоя любимая цифра — <span class="highlight">8</span>.</p>
+        <p>Я думаю, потому что она не заканчивается <span class="heart">🥰</span></p>
+        <p>Как ты, когда выбираешь не сдаваться <span class="heart">❤️</span></p>
+    </section>
+
+    <div class="quiet-divider"><span>❧</span></div>
+
+    <!-- ВРЕМЯ -->
+    <section id="time">
+        <h2 class="section-title">Время</h2>
+        <div class="time-moment">1:01</div>
+        <div class="time-moment small">8 октября 2007</div>
+        <p>Иногда одно мгновение меняет слишком многое.</p>
+        <p>С нашего знакомства, 1:01 — это больше, чем просто время.</p>
+        <p>Это самое важное время в моей жизни <span class="heart">❤️</span></p>
+        <p>Именно тогда появилась моя любовь <span class="heart">🥹</span></p>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- ВКУСЫ -->
+    <section id="tastes">
+        <h2 class="section-title">Вкусы</h2>
+        
+        <div class="img-container" style="max-width: 600px;">
+            <img src="img6.jpg" alt="Нектарины и шоколад">
+        </div>
+        
+        <div style="height: 30px;"></div>
+        
+        <p><span class="highlight">Нектарины и абрикосы, милка с фундуком</span> — потому что ты любишь сладкое <span class="heart">🥺</span></p>
+        <p>Иногда счастье — это просто правильная шоколадка.</p>
+    </section>
+
+    <div class="quiet-divider"><span>※</span></div>
+
+    <!-- СМЕШНОЙ ФАКТ -->
+    <section id="fact">
+        <h2 class="section-title">Маленький смешной факт</h2>
+        
+        <div class="img-container" style="max-width: 500px;">
+            <img src="img7.jpg" alt="Вода Аква Бурабай">
+        </div>
+        
+        <div style="height: 30px;"></div>
+        
+        <p>Вода «Аква Бурабай» реально крутая.</p>
+        <p>И это <span class="highlight">ОЧЕНЬ ВАЖНО ЗАПОМНИТЬ!</span></p>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- ЦВЕТА -->
+    <section id="colors">
+        <h2 class="section-title">Красный. Чёрный. Серый.</h2>
+        <p><span class="highlight">Красный и черный</span> — твои самые любимые цвета.</p>
+        <p>Обожаю, когда эти цвета на тебе — они идеально тебе подходят <span class="heart">❤️</span></p>
+        <p><span class="highlight">Серый</span> — когда ни то, ни то <span class="heart">☺️</span></p>
+        <p><span class="highlight">Miu Miu и Vivienne Westwood</span> — те бренды, которые ты будешь носить в будущем <span class="heart">🥰</span></p>
+    </section>
+
+    <div class="quiet-divider"><span>✼</span></div>
+
+    <!-- ЧТЕНИЕ -->
+    <section id="reading">
+        <h2 class="section-title">То, что ты читаешь</h2>
+        
+        <div class="img-container" style="max-width: 550px;">
+            <img src="img8.jpg" alt="Мураками">
+        </div>
+        
+        <div style="height: 30px;"></div>
+        
+        <p><span class="highlight">Мураками.</span></p>
+        <p>Честно, жаным, я не знаю что тут писать, просто Мураками <span class="heart">🤣</span></p>
+        <p>Когда-нибудь я пойму, почему ты так любишь его произведения <span class="heart">❤️</span></p>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- ДЕРЕВО -->
+    <section id="tree">
+        <h2 class="section-title">Дерево</h2>
+        
+        <div class="img-container">
+            <img src="img9.jpg" alt="Плакучая ива">
+        </div>
+        
+        <div style="height: 40px;"></div>
+        
+        <p>Ты любишь плакучую иву.</p>
+        <p>Благодаря тебе я увидел не только в ней, но и в остальных деревьях бесконечную красоту,</p>
+        <p>такую, какую однажды увидел и не перестаю видеть в тебе <span class="heart">❤️</span></p>
+    </section>
+
+    <div class="quiet-divider"><span>✦</span></div>
+
+    <!-- ХОША -->
+    <section id="hosha">
+        <h2 class="section-title">Хоша</h2>
+        
+        <div class="img-container" style="max-width: 600px;">
+            <img src="img10.jpg" alt="Хоша (Минхо)">
+        </div>
+        
+        <div style="height: 40px;"></div>
+        
+        <p><span class="highlight">Хоша.</span></p>
+        <p>Полное имя — <span class="highlight">Минхо</span>.</p>
+        <p>Та, кого ты любишь по-настоящему.</p>
+        <p>И кто отвечает тебе тем же <span class="heart">😍</span></p>
+    </section>
+
+    <div class="quiet-divider"><span>❦</span></div>
+
+    <!-- ФИНАЛЬНЫЙ РАЗДЕЛ - БУДУЩЕЕ ФОТО -->
+    <section id="future-photo">
+        <h2 class="section-title">А здесь...</h2>
+        
+        <div class="question-square">
+            <div class="question-mark">?</div>
+            <p style="color: #666; font-size: 1rem; letter-spacing: 3px; margin-top: -20px;">ожидание</p>
+        </div>
+        
+        <div style="height: 30px;"></div>
+        
+        <p>...будет наше фото, которое мы сделаем уже через день.</p>
+        <p>Представляешь, какой большой путь мы прошли вместе?</p>
+        <p>8 месяцев отношений — это ни хухры-мухры, это очень-очень много!</p>
+        <p>Это было безумное приключение, которое никогда не закончится, и я безумно этому рад <span class="heart">❤️</span></p>
+        
+        <div style="height: 20px;"></div>
+        
+        <p>Я люблю тебя, милая моя, люблю наши отношения и люблю всё, что связано с тобой!</p>
+        <p>Я верю, что этот сайт тебе очень сильно понравился, но спешу сказать, что это не всё —</p>
+        <p>основной текст будет ждать тебя в телеграмме.</p>
+        <p>Поэтому советую прочитать его и не забывать про этот сайтик.</p>
+        <p>Я очень старался над ним и буду счастлив, если тебе понравится <span class="heart">❤️</span></p>
+        
+        <div style="height: 40px;"></div>
+        
+        <p style="margin-top: 60px; font-size: 1.4rem; color: rgba(255, 255, 255, 0.7);">
+            Целую тебя в щёчку и с любовью, твой будущий муж <span class="heart">❤️</span>
+        </p>
+    </section>
+
+    <!-- СКРИПТ ДЛЯ ПЛАВНОГО ПОЯВЛЕНИЯ - ИСПРАВЛЕННЫЙ -->
+    <script>
+        // Плавное появление секций при прокрутке
+        const sections = document.querySelectorAll('section');
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, {
+            threshold: 0.08,
+            rootMargin: '0px 0px -50px 0px'
+        });
+        
+        sections.forEach(section => {
+            observer.observe(section);
+        });
+
+        // Плавный скролл для кнопки
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                if(targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if(targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 30,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // УБРАН ПАРАЛЛАКС-ЭФФЕКТ, КОТОРЫЙ СДВИГАЛ ИЗОБРАЖЕНИЯ
+
+        // Мягкое появление текста с задержкой
+        document.addEventListener('DOMContentLoaded', () => {
+            const paragraphs = document.querySelectorAll('p');
+            paragraphs.forEach((p, index) => {
+                p.style.transitionDelay = `${index * 0.05}s`;
+            });
+            
+            // Проверка загрузки изображений
+            const images = document.querySelectorAll('img');
+            images.forEach(img => {
+                img.onerror = function() {
+                    console.log('Ошибка загрузки изображения:', this.src);
+                    this.style.border = '2px solid #ff3366';
+                    this.alt = 'Изображение не загружено: ' + this.alt;
+                };
+                img.onload = function() {
+                    console.log('Изображение загружено:', this.src);
+                };
+            });
+        });
+    </script>
+</body>
+</html>
